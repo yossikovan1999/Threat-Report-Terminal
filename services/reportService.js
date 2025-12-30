@@ -31,5 +31,12 @@ export async function addReport(data) {
 export async function getAllReports(){
 
     return await db.collection("intel_reports").find().toArray();
+}
 
+export async function getAboveLevel(level){
+
+    const query = {threatLevel : {$gt : level}}
+    const result = await db.collection("intel_reports").find(query).toArray();
+
+    return result;
 }
