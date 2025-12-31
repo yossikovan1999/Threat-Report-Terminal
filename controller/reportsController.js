@@ -42,10 +42,54 @@ export async function getAllReports(req, res, next) {
   }
 }
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 export async function getAboveLevel(req, res, next) {
   try {
     const { level = 4 } = req.query;
     const reports = await reportService.getAboveLevel(level);
     return res.status(201).json(reports);
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+export async function setConfirm(req, res, next) {
+  try {
+    const {id} = req.params;
+    const reports = await reportService.setConfirm(id);
+    return res.status(201).json(reports);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+export async function deleteUser(req, res, next) {
+  
+  try{
+    const {id} = req.params;
+    const reports = await reportService.deleteUser(id);
+    return res.status(201).json(reports);
+  }catch(error){
+    next(error);
+  }
 }

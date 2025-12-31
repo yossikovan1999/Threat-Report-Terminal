@@ -1,5 +1,11 @@
 import db from "../database/connection.js";
+import { ObjectId } from "mongodb";
 
+/**
+ * add Report
+ * @param {*} data 
+ * @returns 
+ */
 export async function addReport(data) {
   const { threatLevel, confirmed = false } = data;
 
@@ -27,16 +33,53 @@ export async function addReport(data) {
   return result;
 }
 
-
+/**
+ * get all the reports
+ */
 export async function getAllReports(){
 
     return await db.collection("intel_reports").find().toArray();
 }
 
+/**
+ * get Above Level
+ * @param {*} level 
+ * @returns 
+ */
 export async function getAboveLevel(level){
 
     const query = {threatLevel : {$gt : level}}
     const result = await db.collection("intel_reports").find(query).toArray();
 
     return result;
+}
+
+/**
+ * set Confirm
+ * @param {*} id 
+ * @returns 
+ */
+export async function setConfirm(id){
+  
+  console.log(id);
+
+  const query = {$set : {confirmed : false}};
+  const document = {_id : new ObjectId(id)};
+
+  const result =  await db.collection("intel_reports").updateOne(document, query);
+
+  return result;
+}
+
+/**
+ * 
+ * @param {*} id 
+ * @returns 
+ */
+export async function deleteUser(id){
+  
+  const result = await db.collection("intel_reports").deleteOne({_id : new ObjectId(id)});
+
+  return result;
+
 }
